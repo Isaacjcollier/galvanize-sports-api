@@ -20,7 +20,7 @@ describe('galvanize-sports-api : routes', () => {
   });
 
   describe('GET /carts', () => {
-    xit('should return an empty list of the available carts', (done) => {
+    it('should return an empty list of the available carts', (done) => {
       chai.request(server).get('/carts').end((err, res) => {
         expect(res.status).to.equal(200);
         expect(res.body).to.be.a('array');
@@ -29,7 +29,7 @@ describe('galvanize-sports-api : routes', () => {
       });
     });
 
-    xit('should return existing carts', (done) => {
+    it('should return existing carts', (done) => {
       chai.request(server).post('/carts').end((err, res) => {
         expect(carts.length).to.equal(1);
 
@@ -47,7 +47,7 @@ describe('galvanize-sports-api : routes', () => {
   });
 
   describe('POST /carts', () => {
-    xit('should create a new cart', (done) => {
+    it('should create a new cart', (done) => {
       chai.request(server).post('/carts').end((err, res) => {
         expect(res.status).to.equal(201);
         expect(carts.length).to.equal(1);
@@ -58,7 +58,7 @@ describe('galvanize-sports-api : routes', () => {
   });
 
   describe('GET /carts/:id', () => {
-    xit('should return an individual cart', (done) => {
+    it('should return an individual cart', (done) => {
       chai.request(server).post('/carts').end((err, res) => {
         expect(carts.length).to.equal(1);
         chai.request(server).get(`/carts/${res.body.id}`).end((err, res) => {
@@ -69,7 +69,7 @@ describe('galvanize-sports-api : routes', () => {
       });
     });
 
-    xit('should return a 404 if there is no cart found', (done) => {
+    it('should return a 404 if there is no cart found', (done) => {
       chai.request(server).get(`/carts/1`).end((err, res) => {
         expect(res.status).to.equal(404);
         expect(res.body).to.be.a('object');
@@ -80,7 +80,7 @@ describe('galvanize-sports-api : routes', () => {
   });
 
   describe('POST /carts/:id/products/:productId', () => {
-    xit('adds a product to the cart', (done) => {
+    it('adds a product to the cart', (done) => {
       chai.request(server).post('/carts').end((err, res) => {
         let cart = carts[0];
         let product = inventory.snowboards[0];
@@ -99,12 +99,12 @@ describe('galvanize-sports-api : routes', () => {
       });
     });
 
-    xit('increases the quantity if the product is in the cart', (done) => {
+    it('increases the quantity if the product is in the cart', (done) => {
       chai.request(server).post('/carts').end((err, res) => {
         let cart = carts[0];
         let product = inventory.snowboards[0];
         let inStock = product.available;
-
+        console.log(err);
         chai.request(server).post(`/carts/${cart.id}/products/${product.id}`)
         .end((err, res) => {
           expect(res.status).to.equal(201);
@@ -125,7 +125,7 @@ describe('galvanize-sports-api : routes', () => {
       });
     });
 
-    xit('returns a 404 if the cart id is incorrect', (done) => {
+    it('returns a 404 if the cart id is incorrect', (done) => {
       chai.request(server).post('/carts').end((err, res) => {
         let cart = carts[0];
         let product = inventory.snowboards[0];
@@ -141,7 +141,7 @@ describe('galvanize-sports-api : routes', () => {
       });
     });
 
-    xit('returns a 404 if the product id is incorrect', (done) => {
+    it('returns a 404 if the product id is incorrect', (done) => {
       chai.request(server).post('/carts').end((err, res) => {
         let cart = carts[0];
         let product = inventory.snowboards[0];
@@ -157,7 +157,7 @@ describe('galvanize-sports-api : routes', () => {
       });
     });
 
-    xit('returns a 422 if the product is out of stock', (done) => {
+    it('returns a 422 if the product is out of stock', (done) => {
       chai.request(server).post('/carts').end((err, res) => {
         let cart = carts[0];
         let product = inventory.snowboards[0];
@@ -175,7 +175,7 @@ describe('galvanize-sports-api : routes', () => {
   });
 
   describe('GET /carts/:id/total', () => {
-    xit('calculates the current total of the cart', (done) => {
+    it('calculates the current total of the cart', (done) => {
       chai.request(server).post('/carts').end((err, res) => {
         let cart = carts[0];
         let product = inventory.snowboards[0];
